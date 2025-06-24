@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="max-w-3xl mx-auto p-6 text-center">
+    <h1 class="text-3xl font-bold mb-4">Welcome to the Modular System</h1>
+    <p class="text-gray-700">This is the public landing page. No login required.</p>
+
+    <div class="mt-6">
+      <a href="/accounts/login/" class="text-blue-600 hover:underline">Login</a> |
+      <a href="/module/" class="text-blue-600 hover:underline">Module Panel</a>
+    </div>
+  </div>
+{% endblock %}

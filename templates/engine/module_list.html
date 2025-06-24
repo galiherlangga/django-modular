@@ -1,0 +1,34 @@
+{% extends "base.html" %} {% block content %}
+<h2 class="text-xl font-bold mb-6">Available Modules</h2>
+
+<ul class="space-y-2">
+    {% for mod in available_modules %}
+    <li class="flex items-center justify-between p-4 bg-gray-100 rounded">
+        <span>{{ mod }}</span>
+
+        <div class="flex gap-2">
+            {% if mod in installed_modules_map %}
+            <form method="post" action="{% url 'engine:upgrade_module' mod %}">
+                {% csrf_token %}
+                <button class="text-yellow-600 hover:underline">Upgrade</button>
+            </form>
+            <form
+                method="post"
+                action="{% url 'engine:uninstall_module' mod %}"
+            >
+                {% csrf_token %}
+                <button class="text-red-600 hover:underline">Uninstall</button>
+            </form>
+            {% else %}
+            <form method="post" action="{% url 'engine:install_module' mod %}">
+                {% csrf_token %}
+                <button type="submit" class="text-green-600 hover:underline">
+                    Install {{ mod }}
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}

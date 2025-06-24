@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Modular System{% endblock %}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        {% block head %}{% endblock %}
+    </head>
+    <body class="bg-gray-100 text-gray-800 font-sans">
+        <nav class="bg-white shadow p-4 flex justify-between">
+            <div>
+                <a href="/" class="font-bold text-lg text-blue-600">Modular System</a>
+            </div>
+            <div>
+                {% if user.is_authenticated %}
+                    <span class="mr-4">Logged in as {{ user.username }}</span>
+                    <button type="submit" form="logout-form" class="text-red-500 hover:underline">Logout</button>
+                    <form method="POST" action="{% url 'logout' %}" id="logout-form" class="hidden">
+                        {% csrf_token %}
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}" class="text-blue-500 hover:underline">Login</a>
+                {% endif %}
+            </div>
+        </nav>
+
+        <div class="flex">
+            <aside class="w-64 bg-white border-r border-gray-200 p-4 h-screen">
+                <ul class="space-y-2 text-sm">
+                    {{ role }}
+                    {% if request.user.is_authenticated %}
+                        {%if role == 'manager' or request.user.is_superuser %}
+                        <li>
+                            <a href="{% url 'engine:module_list' %}" class="block text-blue-600 hover:bg-blue-100 hover:underline text-sm p-3 rounded">
+                                <div class="font-medium text-gray-800 text-base">Manage Modules</div>
+                            </a>
+                        </li>
+                        {% endif %}
+                    {% endif %}
+                    {% for mod in installed_modules %}
+                    <li>
+                        <a href="{% url 'product_module:product_list' %}" class="block text-blue-600 hover:bg-blue-100 hover:underline text-sm p-3 rounded">
+                            <div class="font-medium text-gray-800 text-base">{{ mod.name }}</div>
+                        </a>
+                    </li>
+                    {% empty %}
+                    <li class="text-gray-500 text-sm">No modules installed.</li>
+                    {% endfor %}
+                </ul>
+            </aside>
+
+            <main class="flex-1 my-10 p-6">
+              <div class="max-w-4xl bg-white p-6 rounded shadow mx-auto">
+                {% block content %}{% endblock %}
+              </div>
+            </main>
+        </div>
+
+        {% block scripts %}{% endblock %}
+    </body>
+</html>
