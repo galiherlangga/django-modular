@@ -5,6 +5,8 @@ from product_module.manifest.roles import remove_roles, setup_roles
 def install():
     call_command('makemigrations', 'product_module')
     call_command('migrate', 'product_module')
+    
+    setup_roles()
     print("Product module installed successfully.")
 
 def upgrade():

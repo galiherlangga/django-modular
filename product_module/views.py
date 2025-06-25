@@ -26,7 +26,9 @@ class ProductView(RoleRequiredMixin, View):
         elif action == "create" and role in ['manager', 'user']:
             return render(request, 'product_module/form.html', {'product': None, 'role': role})
         
-        products = Product.objects.all()
+        # TODO: Implement pagination later
+        # TODO: Implement cache later
+        products = Product.objects.filter(deleted_at__isnull=True).order_by('-created_at')
         return render(request, 'product_module/list.html', {'products': products, 'role': role})
     
     @method_decorator(csrf_protect)

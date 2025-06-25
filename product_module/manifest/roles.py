@@ -16,6 +16,19 @@ def setup_roles():
     user.permissions.set(user_permissions)
 
 
-# TODO: Adjust for uninstall module
 def remove_roles():
-    Group.objects.filter(name__in=["manager", "user", "public"]).delete()
+    content_type = ContentType.objects.get_for_model(Product)
+    
+    try:
+        manager = Group.objects.get(name="manager")
+        product_permission = Permission.objects.filter(content_type=content_type)
+        manager.permissions.remove(*product_permission)
+    except Exception as e:
+        print(f"Error removing manager permissions: {e}")
+    
+    try:
+        user = Group.objects.get(name="user")
+        user_permissions = Permission.objects.filter(content_type=content_type, codename__in=["add_product", "change_product", "view_product"])
+        user.permissions.remove(*user_permissions)
+    except Exception as e:
+        print(f"Error removing user permissions: {e}")
