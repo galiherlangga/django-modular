@@ -8,8 +8,8 @@ from engine.utils.module_loader import install_module, list_available_modules, u
 @login_required
 def module_list_view(request):
     available_modules = list_available_modules()
-    installed_qs = ModuleRegistry.objects.filter(installed=True)
-    installed_modules = {mod.name: mod for mod in installed_qs}
+    installed_module_registries = ModuleRegistry.objects.filter(installed=True)
+    installed_modules = {mod.name: mod for mod in installed_module_registries}
     return render(request, 'engine/module_list.html', {
         'installed_modules_map': installed_modules,
         'available_modules': available_modules

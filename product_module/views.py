@@ -4,10 +4,12 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.decorators.csrf import csrf_protect
 
+from engine.utils.decorators import module_installed_required
 from product_module.serializers import ProductSerializer
 from project.access.mixins import RoleRequiredMixin
 from .models import Product
 
+@method_decorator(module_installed_required('product_module'), name='dispatch')
 class ProductView(RoleRequiredMixin, View):
     allowed_roles = ['manager', 'user']
     
@@ -57,10 +59,15 @@ class ProductView(RoleRequiredMixin, View):
                 return render(request, 'product_module/form.html', {'product': serializer.data, 'role': role})
         
         elif pk and action == "delete" and role == "manager":
-            product = get_object_or_404(Product, pk=pk)
-            product.delete()
-            messages.success(request, "Product deleted successfully.")
-            return redirect('product_module:product_list')
+            try:
+                product = get_object_or_404(Product, pk=pk)
+                product.delete()
+                messages.success(request, "Product deleted successfully.")
+                return redirect('product_module:product_list')
+            except Exception as e:
+                print(e)
+                messages.error(request, "Product not found.")
+                return redirect('product_module:product_list')
         
         messages.error(request, "Invalid action or insufficient permissions.")
         return render(request, 'product_module/list.html', {'role': role})
