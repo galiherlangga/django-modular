@@ -58,4 +58,13 @@ For a detailed understanding of the database structure, refer to the ERD diagram
 
 ## Flowchart
 For a visual representation of the project's workflow, refer to the flowchart diagram available [here](https://drive.google.com/file/d/1xuf8j2tVvn4XIbgadWtUzmOUM4J-ml2q/view?usp=sharing).
+
+## Accessing the Project
+To access the project, you can use the following link:
+[Project Access Link](https://django-modular.gemats.com)
+
+## Contact Me
+<rewrite_this>
+If you have any questions or need assistance, feel free to contact me at galiherlanggadev@gmail.com or connect with me on LinkedIn: [Galih Erlangga](https://www.linkedin.com/in/galiherlangga).
+</rewrite_this>
 ```
