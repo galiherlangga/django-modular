@@ -39,11 +39,17 @@
                         {% endif %}
                     {% endif %}
                     {% for mod in installed_modules %}
-                    <li>
-                        <a href="{% url 'product_module:product_list' %}" class="block text-blue-600 hover:bg-blue-100 hover:underline text-sm p-3 rounded">
-                            <div class="font-medium text-gray-800 text-base">{{ mod.name }}</div>
-                        </a>
-                    </li>
+                        {% if mod.url %}
+                            <li>
+                                <a href="{{ mod.url }}" class="block text-blue-600 hover:bg-blue-100 hover:underline text-sm p-3 rounded">
+                                    <div class="font-medium text-gray-800 text-base">{{ mod.name }}</div>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="text-gray-500 text-sm p-3 rounded">
+                                <div class="font-medium text-gray-800 text-base">{{ mod.name }}</div>
+                            </li>
+                        {% endif %}
                     {% empty %}
                     <li class="text-gray-500 text-sm">No modules installed.</li>
                     {% endfor %}

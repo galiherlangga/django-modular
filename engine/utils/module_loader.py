@@ -3,6 +3,7 @@ from django.conf import settings
 from django.utils.timezone import now
 
 from engine.models import ModuleRegistry
+from project.utils.url_loader import load_active_modules
 
 def load_module():
     return [app for app in settings.INSTALLED_APPS if hasattr(importlib.import_module(app), 'manifest.module_config')]
@@ -15,6 +16,8 @@ def list_available_modules():
             available.append(app)
         except ModuleNotFoundError:
             continue
+    from project.urls import urlpatterns
+    load_active_modules(urlpatterns)
     return available
 
 def install_module(module_name):
@@ -29,6 +32,9 @@ def install_module(module_name):
             name=module_name,
             defaults={'installed': True}
         )
+        # load project urlpatterns
+        from project.urls import urlpatterns
+        load_active_modules(urlpatterns)
         print(f"Module {module_name} installed successfully.")
     else:
         raise AttributeError(f"Module {module_name} does not have an install method.")
@@ -61,6 +67,9 @@ def uninstall_module(module_name):
             name=module_name,
             defaults={'installed': False}
         )
+        # load project urlpatterns
+        from project.urls import urlpatterns
+        load_active_modules(urlpatterns)
         print(f"Module {module_name} uninstalled successfully.")
     else:
         raise AttributeError(f"Module {module_name} does not have an uninstall method.")

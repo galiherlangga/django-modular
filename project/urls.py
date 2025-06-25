@@ -19,6 +19,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 from engine.models import ModuleRegistry
+from project.utils.url_loader import load_active_modules
 
 urlpatterns = [
     path('', include('landing.urls')),
@@ -27,15 +28,6 @@ urlpatterns = [
     path('module/', include('engine.urls')),
 ]
 
-def load_active_modules():
-    try:
-        for module in ModuleRegistry.objects.filter(installed=True):
-            try:
-                url_module = importlib.import_module(f"{module.name}.urls")
-                urlpatterns.append(path(f"{module.name}/", include(f"{module.name}.urls")))
-            except ImportError as e:
-                print(f"Failed to load module {module.name}: {e}")
-    except Exception as e:
-        print(f"Could not load active modules: {e}")
+
         
-load_active_modules()
+load_active_modules(urlpatterns)

@@ -23,7 +23,7 @@ def install_module_view(request, module_name):
             messages.success(request, f"Module {module_name} installed successfully.")
         except Exception as e:
             messages.error(request, f"Failed to install module {module_name}: {str(e)}")
-    return redirect(reverse("engine:module_list"))
+    return redirect("engine:module_list")
 
 @login_required
 def upgrade_module_view(request, module_name):
