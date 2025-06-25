@@ -67,4 +67,3 @@ To access the project, you can use the following link:
 <rewrite_this>
 If you have any questions or need assistance, feel free to contact me at galiherlanggadev@gmail.com or connect with me on LinkedIn: [Galih Erlangga](https://www.linkedin.com/in/galiherlangga).
 </rewrite_this>
-```
